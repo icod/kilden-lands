@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Map of Kilden Lands</title>
+    <style>
+        #openseadragon-viewer {
+            width: 100vw;
+            height: 100vh;
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/openseadragon@5.0.1/build/openseadragon/openseadragon.min.js"></script>
+</head>
+<body>
+    <div id="openseadragon-viewer"></div>
+    <script>
+        OpenSeadragon({
+            id: "openseadragon-viewer",
+            prefixUrl: "https://cdn.jsdelivr.net/npm/openseadragon@5.0.1/build/openseadragon/images/",
+            tileSources: 'assets/images/map.dzi',
+        });
+    </script>
+</body>
+</html>
