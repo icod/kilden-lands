@@ -2,29 +2,77 @@
 <html lang="en">
 <head>
     <title>Map of Kilden Lands</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@main/dist/en/v7.0.0/legacy/ol.css" type="text/css">
+    <script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@main/dist/en/v7.0.0/legacy/ol.js"></script>
     <style>
-        #openseadragon-viewer {
-            width: 100vw;
-            height: 100vh;
-            background-color: black;
-        }
-
         body, html {
             margin: 0;
             padding: 0;
         }
+
+        #map {
+            width: 100vw;
+            height: 100vh;
+        }
     </style>
-    <script src="https://cdn.jsdelivr.net/npm/openseadragon@5.0.1/build/openseadragon/openseadragon.min.js"></script>
-</head>
+    </head>
 <body>
-    <div id="openseadragon-viewer"></div>
+    <div id="map"></div>
     <script>
-        OpenSeadragon({
-            id: "openseadragon-viewer",
-            prefixUrl: "https://cdn.jsdelivr.net/npm/openseadragon@5.0.1/build/openseadragon/images/",
-            tileSources: 'assets/images/map.dzi',
-            homeFillsViewer: true,
+        const tilesPath = 'assets/images/map_tiles';
+
+        const mousePositionControl = new ol.control.MousePosition({
+            className: 'custom-mouse-position',
+            target: document.getElementById('mouse-position'),
+            undefinedHTML: '&nbsp;'
         });
+
+        const bounds = [0,-9474, 9439, 0];
+
+        const view = new ol.View({
+                center: [4719.500000, -4737.000000],
+                resolution: 16.000000,
+                extent: bounds,
+                maxZoom: 17
+            });
+
+        const map = new ol.Map({
+            target: 'map',
+
+            layers: [
+                new ol.layer.Group({
+                    title: 'Overlay',
+                    layers: [
+                        new ol.layer.Tile({
+                            title: 'Overlay',
+                            source: new ol.source.TileImage({
+                                attributions: '',
+                                tileGrid: new ol.tilegrid.TileGrid({
+                                    extent: bounds,
+                                    origin: [0,-9474],
+                                    resolutions: [64,32,16,8,4,2],
+                                    tileSize: [256, 256]
+                                }),
+                                tileUrlFunction: function(tileCoord) {
+                                    return (`${tilesPath}/{z}/{x}/{y}.png`
+                                        .replace('{z}', String(tileCoord[0]))
+                                        .replace('{x}', String(tileCoord[1]))
+                                        .replace('{y}', String(- 1 - tileCoord[2])));
+                                },
+                            })
+                        }),
+                    ]
+                }),
+            ],
+            view: view,
+        });
+
+        view.on('change:resolution', function() {
+  const zoomLevel = view.getZoom();
+  console.log('Huidig zoomniveau:', zoomLevel);
+});
     </script>
 </body>
 </html>
