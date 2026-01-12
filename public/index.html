@@ -23,13 +23,7 @@
     <script>
         const tilesPath = 'assets/images/map_tiles';
 
-        const mousePositionControl = new ol.control.MousePosition({
-            className: 'custom-mouse-position',
-            target: document.getElementById('mouse-position'),
-            undefinedHTML: '&nbsp;'
-        });
-
-        const bounds = [0,-9474, 9439, 0];
+        const bounds = [0, -9474, 9439, 0];
 
         const view = new ol.View({
                 center: [4719.500000, -4737.000000],
@@ -68,11 +62,6 @@
             ],
             view: view,
         });
-
-        view.on('change:resolution', function() {
-  const zoomLevel = view.getZoom();
-  console.log('Huidig zoomniveau:', zoomLevel);
-});
     </script>
 </body>
 </html>
