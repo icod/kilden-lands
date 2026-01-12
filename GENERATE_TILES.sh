@@ -1,3 +1,3 @@
-#!/bin/sh
+#!/bin/bash
 
-vips dzsave source.jpg public/assets/images/map --layout dz
+gdal2tiles -p raster -z 0-5 -w none -e source.jpg public/assets/images/map_tiles
